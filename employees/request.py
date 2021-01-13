@@ -3,19 +3,19 @@ EMPLOYEES = [
       "name": "Jonathen",
       "locationId": 2,
       "animalId": 1,
-      "id": 5
+      "id": 1
     },
     {
       "name": "Jonathens",
       "locationId": 1,
       "animalId": 1,
-      "id": 6
+      "id": 2
     },
     {
       "name": "asd",
       "locationId": 1,
       "animalId": 2,
-      "id": 7
+      "id": 3
     }
 ]
 def get_all_employees():
@@ -34,3 +34,18 @@ def get_single_employee(id):
             requested_employee = employee
 
     return requested_employee
+def create_employees(employee):
+    # Get the id value of the last employee in the list
+    max_id = EMPLOYEES[-1]["id"]
+
+    # Add 1 to whatever that number is
+    new_id = max_id + 1
+
+    # Add an `id` property to the employee dictionary
+    employee["id"] = new_id
+
+    # Add the employee dictionary to the list
+    EMPLOYEES.append(employee)
+
+    # Return the dictionary with `id` property added
+    return employee
