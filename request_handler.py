@@ -3,7 +3,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 from animals import get_all_animals, get_single_animal, create_animal
 from customers import get_all_customers, get_single_customer
 from employees import get_all_employees, get_single_employee
-from locations import get_all_locations, get_single_location
+from locations import get_all_locations, get_single_location, create_locations
 
 
 # Here's a class. It inherits from another class.
@@ -97,6 +97,7 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         # Initialize new animal
         new_animal = None
+        new_location = None
 
         # Add a new animal to the list. Don't worry about
         # the orange squiggle, you'll define the create_animal
@@ -106,6 +107,10 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         # Encode the new animal and send in response
         self.wfile.write(f"{new_animal}".encode())
+        
+        if resource == "locations":
+            new_location = create_locations(post_body)
+        self.wfile.write(f"{new_location}".encode())
 
 
     # Here's a method on the class that overrides the parent's method.
