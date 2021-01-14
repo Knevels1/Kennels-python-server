@@ -1,21 +1,21 @@
 CUSTOMERS = [
     {
+      "id": 1,
       "email": "DawnOps@icloud.com",
       "password": "19972011",
-      "name": "Kyle Nevels",
-      "id": 1
+      "name": "Kyle Nevels"
     },
     {
+      "id": 2,
       "email": "mauligan@hghg.com",
       "password": "13792",
-      "name": "Kyle Nevels",
-      "id": 2
+      "name": "Kyle Nevels"
     },
     {
+      "id": 3,
       "email": "mcrib@gmail.com",
       "password": "143",
       "name": "Dawny Nevels",
-      "id": 3
     }
 ]
 def get_all_customers():

@@ -1,21 +1,21 @@
 EMPLOYEES = [
     {
+      "id": 1,
       "name": "Jonathen",
       "locationId": 2,
-      "animalId": 1,
-      "id": 1
+      "animalId": 1
     },
     {
+      "id": 2,
       "name": "Jonathens",
       "locationId": 1,
-      "animalId": 1,
-      "id": 2
+      "animalId": 1
     },
     {
+      "id": 3,
       "name": "asd",
       "locationId": 1,
-      "animalId": 2,
-      "id": 3
+      "animalId": 2
     }
 ]
 def get_all_employees():
