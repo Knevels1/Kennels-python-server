@@ -54,7 +54,7 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         # Parse the URL and capture the tuple that is returned
         (resource, id) = self.parse_url(self.path)
-
+        
         if resource == "animals":
             if id is not None:
                 response = f"{get_single_animal(id)}"
