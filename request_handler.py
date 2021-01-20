@@ -1,6 +1,6 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from animals import get_all_animals, get_single_animal, create_animals, delete_animal, update_animal
+from animals import get_all_animals
 from customers import get_all_customers, get_single_customer, create_customers, delete_customer, update_customer
 from employees import get_all_employees, get_single_employee, create_employees, delete_employee, update_employee
 from locations import get_all_locations, get_single_location, create_locations, delete_location, update_location
