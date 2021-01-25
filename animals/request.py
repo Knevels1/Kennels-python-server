@@ -1,12 +1,13 @@
 import sqlite3
 import json
 from models import Animal
+from models.location import Location
+from models.customer import Customer
+
 
 def get_all_animals():
     # Open a connection to the database
     with sqlite3.connect("./kennel.db") as conn:
-
-        # Just use these. It's a Black Box.
         conn.row_factory = sqlite3.Row
         db_cursor = conn.cursor()
 
@@ -18,30 +19,37 @@ def get_all_animals():
             a.breed,
             a.status,
             a.location_id,
-            a.customer_id
-        FROM animal a
+            a.customer_id,
+            l.name location_name,
+            l.address location_address,
+            c.name customer_name,
+            c.address
+        FROM Animal a
+        JOIN Location l
+            ON l.id = a.location_id
+        JOIN Customer c
+            ON c.id = a.customer_id
         """)
 
         # Initialize an empty list to hold all animal representations
         animals = []
-
-        # Convert rows of data into a Python list
         dataset = db_cursor.fetchall()
 
-        # Iterate list of data returned from database
+        # Iterate all rows of data returned from database
         for row in dataset:
 
-            # Create an animal instance from the current row.
-            # Note that the database fields are specified in
-            # exact order of the parameters defined in the
-            # Animal class above.
-            animal = Animal(row['id'], row['name'], row['breed'],
-                            row['status'], row['location_id'],
-                            row['customer_id'])
+            # Create an animal instance from the current row
+            animal = Animal(row['name'], row['breed'], row['status'],
+                            row['location_id'], row['customer_id'], row['id'])
+
+            location = Location(row['location_name'], row['location_address'])
+            animal.location = location.__dict__
+
+            customer = Customer(row['customer_name'], row['address'])
+            animal.customer = customer.__dict__
 
             animals.append(animal.__dict__)
 
-    # Use `json` package to properly serialize list as JSON
     return json.dumps(animals)
 def get_single_animal(id):
     with sqlite3.connect("./kennel.db") as conn:
