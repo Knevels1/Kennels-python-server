@@ -34,7 +34,7 @@ def get_all_customers():
             # Note that the database fields are specified in
             # exact order of the parameters defined in the
             # Animal class above.
-            customer = Customer(row['id'], row['name'], row['address'], row['email'] , row['password'])
+            customer = Customer(row['name'], row['address'], row['email'] , row['password'], row['id'])
 
             customers.append(customer.__dict__)
 
@@ -62,7 +62,7 @@ def get_single_customer(id):
         data = db_cursor.fetchone()
 
         # Create an animal instance from the current row
-        customer = Customer(data['id'], data['name'], data['address'], data['email'] , data['password'])
+        customer = Customer(data['name'], data['address'], data['email'] , data['password'], data['id'])
 
         return json.dumps(customer.__dict__)
 def get_customers_by_email(email):
