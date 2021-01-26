@@ -61,12 +61,19 @@ def get_single_animal(id):
         db_cursor.execute("""
         SELECT
             a.id,
-            a.name,
+            a.name animal_name,
             a.breed,
             a.status,
             a.location_id,
-            a.customer_id
+            a.customer_id,
+            l.name,
+            c.name customer_name,
+            c.address
         FROM animal a
+        JOIN Location l
+            on l.id = a.location_id
+        JOIN Customer c
+            ON c.id = a.customer_id
         WHERE a.id = ?
         """, ( id, ))
 
@@ -74,9 +81,14 @@ def get_single_animal(id):
         data = db_cursor.fetchone()
 
         # Create an animal instance from the current row
-        animal = Animal(data['id'], data['name'], data['breed'],
-                            data['status'], data['location_id'],
-                            data['customer_id'])
+        animal = Animal(data['animal_name'], data['breed'],data['status'],
+                        data['location_id'],data['customer_id'],data['id'])
+
+        location = Location(data['name'])
+        animal.location = location.__dict__
+
+        customer = Customer(data['name'],data['address'])
+        animal.customer = customer.__dict__
 
         return json.dumps(animal.__dict__)
 def get_animals_by_location(location_id):
@@ -172,3 +184,28 @@ def update_animal(id, new_animal):
     else:
         # Forces 204 response by main module
         return True
+def create_animal(new_animal):
+    with sqlite3.connect("./kennel.db") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        INSERT INTO Animal
+            ( name, breed, status, location_id, customer_id )
+        VALUES
+            ( ?, ?, ?, ?, ?);
+        """, (new_animal['name'], new_animal['breed'],
+              new_animal['status'], new_animal['location_id'],
+              new_animal['customer_id'], ))
+
+        # The `lastrowid` property on the cursor will return
+        # the primary key of the last thing that got added to
+        # the database.
+        id = db_cursor.lastrowid
+
+        # Add the `id` property to the animal dictionary that
+        # was sent by the client so that the client sees the
+        # primary key in the response.
+        new_animal['id'] = id
+
+
+    return json.dumps(new_animal)
