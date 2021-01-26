@@ -5,6 +5,7 @@ class Location():
     # needs as the first parameter.
     def __init__(self, name, address="", id=""):
         self.name = name
-        self.address= address
+        if address !="":
+            self.address = address
         if id !="":
             self.id = id
